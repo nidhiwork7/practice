@@ -1,0 +1,11 @@
+html
+	head
+	title #{title}
+	body
+		div
+		- console.log(results)
+		div
+		#container
+			ul
+				-each result in results
+					p #{result.name}
