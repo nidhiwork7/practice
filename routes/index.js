@@ -13,7 +13,6 @@ connection.connect(function(err) {
   console.log("----------MySql Connected!-----------");
   connection.query('USE node_js');
   connection.query('SELECT * FROM customers', function(err, rows){
-  	console.log('The solution is: ', rows);
   	router.get('/nidhi', function(req, res){
 	  res.render('nidhi', {
 	    title: rows[0].name,
@@ -21,6 +20,26 @@ connection.connect(function(err) {
 	  });
 	});
   });
+});
+
+var MongoClient = require('mongodb').MongoClient;
+
+var URL = 'mongodb://localhost:27017';
+
+MongoClient.connect(URL, function(err, client) {
+  if (err) throw err;
+  var db = client.db('my_mongo');
+  console.log("----------mongodb Connected!-----------");
+  var collection = db.collection('customers');
+    collection.find({}).toArray(function(err, docs) {
+      router.get('/contact', function(req, res){
+		  res.render('contact', {
+		    title: docs[0].name,
+			results: docs
+		  });
+		});
+      client.close();
+    });
 });
 
 router.get('/', function(req, res){
@@ -35,11 +54,6 @@ router.get('/aboutUs', function(req, res){
   });
 });
 
-router.get('/contact', function(req, res){
-  res.render('contact', {
-    title: 'Contact'
-  });
-});
 
 module.exports = router;
 

@@ -1,5 +1,11 @@
-extends layout
-
-block content
-  h1= title
-  p Wellllllllllllllllllllcome to #{title}
+html
+	head
+	title #{title}
+	body
+		div
+		- console.log(title)
+		div
+		#container
+			ul
+				-each result in results
+					p #{result.name}
